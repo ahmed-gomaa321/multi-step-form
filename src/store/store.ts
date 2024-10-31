@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import currentStepReducer from "@/store/CurrentStepSlice"
+import formsSliceReducer from "@/store/slices/FormsSlice";
+
 export const store = configureStore({
-    reducer: currentStepReducer
-})
+    reducer: {
+        forms: formsSliceReducer,
+    }
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

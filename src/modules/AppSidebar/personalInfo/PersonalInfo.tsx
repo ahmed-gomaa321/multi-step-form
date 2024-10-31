@@ -1,33 +1,45 @@
-import * as yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from 'react-hook-form'
-import { Button } from "@/components/ui/button"
-import { FormField, FormItem, FormLabel, FormControl, FormMessage, Form } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import * as yup from "yup";
+import { useForm } from 'react-hook-form';
+import { FormField, FormItem, FormLabel, FormControl, FormMessage, Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import ButtonsSteps from "@/share/ButtonsSteps";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAll } from "@/store/slices/FormsSlice";
+import { yupResolver } from '@hookform/resolvers/yup';
 
-interface IPersonalForm {
-    name: string,
-    email: string,
-    phone: string,
+export interface IPersonalForm {
+    name: string;
+    email: string;
+    phone: string;
 }
 
-export default function PersonalInfo() {
+export default function PersonalInfo({ setCurrentStep }: { setCurrentStep: React.Dispatch<React.SetStateAction<number>> }) {
+    const selectForms = useSelector(state=> state.forms);
+    console.log(selectForms);
+
+
+    const dispatch = useDispatch();
+FormMessage
     const schema = yup.object().shape({
         name: yup.string().required("userName is required"),
         email: yup.string().email("Invalid email").required("email is required"),
-        phone: yup.string().matches(/^(00201|\+201|01)[0-2,5]{1}[0-9]{8}$/).required("phone is required"),
-    })
+        phone: yup.string().matches(/^(00201|\+201|01)[0-2,5]{1}[0-9]{8}$/, "Invalid phone number").required("phone is required"),
+    });
+
     const form = useForm<IPersonalForm>({
         defaultValues: {
-            name: "",
-            email: "",
-            phone: "",
+            name: selectForms[0]?.name || "",
+            email: selectForms[0]?.email || "",
+            phone: selectForms[0]?.phone || "",
         },
-        // resolver: yupResolver(schema),
+        resolver: yupResolver(schema),
     });
+
     const onSubmit = (data: IPersonalForm) => {
-        console.log(data);
-    }
+        dispatch(updateAll(data));
+        setCurrentStep((prev: number) => prev + 1);
+    };
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -70,8 +82,8 @@ export default function PersonalInfo() {
                         </FormItem>
                     )}
                 />
-                {/* <Button type="submit">Next step</Button> */}
+                <ButtonsSteps />
             </form>
         </Form>
-    )
+    );
 }
