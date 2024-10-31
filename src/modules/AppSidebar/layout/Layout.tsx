@@ -1,11 +1,12 @@
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "../AppSidebar"
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children, currentStep, setCurrentStep }: { children: React.ReactNode, currentStep: number }) {
     return (
         <SidebarProvider>
-            <AppSidebar />
+            <AppSidebar currentStep={currentStep} setCurrentStep={setCurrentStep} />
             <main>
+                <SidebarTrigger />
                 {children}
             </main>
         </SidebarProvider>
