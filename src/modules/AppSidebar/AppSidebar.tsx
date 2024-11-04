@@ -4,13 +4,14 @@ import {
     SidebarGroup,
 } from "@/components/ui/sidebar"
 import { IForms } from "@/store/slices/FormsSlice"
+import { RootState } from "@/store/store"
 import { useSelector } from "react-redux"
 
 interface IITems {
     id: number,
     label: string
 }
-export function AppSidebar({ currentStep, setCurrentStep }: {currentStep : number, setCurrentStep: React.Dispatch<React.SetStateAction<number>>}) {
+export function AppSidebar({ currentStep, setCurrentStep }: { currentStep: number, setCurrentStep: React.Dispatch<React.SetStateAction<number>> }) {
     const items: IITems[] = [
         { id: 1, label: "Your info" },
         { id: 2, label: "Select plan" },
@@ -18,10 +19,12 @@ export function AppSidebar({ currentStep, setCurrentStep }: {currentStep : numbe
         { id: 4, label: "Summary" },
     ]
 
-    const formsData = useSelector(state => state.forms) as IForms[]
+    const formsData = useSelector((state: RootState) => state.forms) as IForms[];
+    console.log(formsData);
+    
 
 
-    const hasData = (index:number) => {
+    const hasData = (index: number) => {
         if (index > currentStep) {
             if (formsData[currentStep]?.isFilled) {
                 return setCurrentStep(index)

@@ -1,7 +1,13 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "../AppSidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "../AppSidebar";
 
-export default function Layout({ children, currentStep, setCurrentStep }: { children: React.ReactNode, currentStep: number }) {
+interface ILayoutProps {
+    currentStep: number;
+    setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+    children?: React.ReactNode;
+}
+
+export default function Layout({ currentStep, setCurrentStep, children }: ILayoutProps) {
     return (
         <SidebarProvider>
             <AppSidebar currentStep={currentStep} setCurrentStep={setCurrentStep} />
@@ -10,5 +16,5 @@ export default function Layout({ children, currentStep, setCurrentStep }: { chil
                 {children}
             </main>
         </SidebarProvider>
-    )
+    );
 }

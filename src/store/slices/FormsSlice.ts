@@ -3,7 +3,7 @@ export interface IForms {
     name: string;
     email: string;
     phone: string;
-    isFilled: boolean
+    isFilled?: boolean
 }
 
 const initialState: IForms[] = [{

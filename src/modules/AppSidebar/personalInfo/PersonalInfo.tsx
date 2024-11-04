@@ -4,29 +4,31 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage, Form } from "
 import { Input } from "@/components/ui/input";
 import ButtonsSteps from "@/share/ButtonsSteps";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAll } from "@/store/slices/FormsSlice";
+import { IForms, updateAll } from "@/store/slices/FormsSlice";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { RootState } from "@/store/store";
 
 export interface IPersonalForm {
     name: string;
     email: string;
     phone: string;
+    isFilled?: boolean;
 }
 
 export default function PersonalInfo({ setCurrentStep }: { setCurrentStep: React.Dispatch<React.SetStateAction<number>> }) {
-    const selectForms = useSelector(state=> state.forms);
+    const selectForms = useSelector((state: RootState) => state.forms);
     console.log(selectForms);
 
 
     const dispatch = useDispatch();
-FormMessage
+    FormMessage
     const schema = yup.object().shape({
         name: yup.string().required("userName is required"),
         email: yup.string().email("Invalid email").required("email is required"),
         phone: yup.string().matches(/^(00201|\+201|01)[0-2,5]{1}[0-9]{8}$/, "Invalid phone number").required("phone is required"),
     });
 
-    const form = useForm<IPersonalForm>({
+    const form = useForm<IForms>({
         defaultValues: {
             name: selectForms[0]?.name || "",
             email: selectForms[0]?.email || "",
@@ -36,7 +38,11 @@ FormMessage
     });
 
     const onSubmit = (data: IPersonalForm) => {
-        dispatch(updateAll(data));
+        const formData: IForms = {
+            ...data,
+            isFilled : true,
+        };
+        dispatch(updateAll(formData));
         setCurrentStep((prev: number) => prev + 1);
     };
 
