@@ -23,7 +23,7 @@ function App() {
     <>
       <main className="flex gap-2">
         <aside>
-          <Layout currentStep={currentStep} setCurrentStep={setCurrentStep} children={undefined} />
+          <Layout currentStep={currentStep} setCurrentStep={setCurrentStep}/>
         </aside>
         <div className="flex-1 mx-auto container mt-20">
           {Forms[currentStep].component}
