@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+
 export interface IForms {
     name: string;
     email: string;
@@ -6,20 +8,20 @@ export interface IForms {
     isFilled?: boolean
 }
 
-const initialState: IForms[] = [{
+const initialState: IForms = {
     name: '',
     email: '',
     phone: '',
-    isFilled:false,
-}]
+    isFilled: false,
+}
 
 const formsSlice = createSlice({
     name: "forms",
     initialState,
     reducers: {
         updateAll(state, action: PayloadAction<IForms>) {
-            state[0] = { ...action.payload ,isFilled :true};
-            console.log(state[0]);
+            state = { ...action.payload, isFilled: true };
+            console.log(state);
         },
     }
 })
