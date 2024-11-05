@@ -1,16 +1,16 @@
 import Layout from "./modules/AppSidebar/layout/Layout"
-import PersonalInfo from "./modules/AppSidebar/personalInfo/PersonalInfo";
-import SecondForm from "./modules/forms/SecondForm";
+import PersonalInfo from "./modules/forms/personalInfo/PersonalInfo";
+import SelectPlan from "./modules/forms/Select plan/SelectPlan";
 import ThirdForm from "./modules/forms/ThirdForm";
 import { useState } from "react";
 function App() {
   const [currentStep, setCurrentStep] = useState<number>(0)
   const Forms = [{
     title: 'Your info',
-    component: <PersonalInfo setCurrentStep={setCurrentStep} />,
+    component: <PersonalInfo currentStep={currentStep} setCurrentStep={setCurrentStep} />,
   }, {
     title: 'Select plan',
-    component: <SecondForm />
+    component: <SelectPlan currentStep={currentStep} setCurrentStep={setCurrentStep} />
   }, {
     title: 'Add-ons',
     component: <ThirdForm />
@@ -23,7 +23,7 @@ function App() {
     <>
       <main className="flex gap-2">
         <aside>
-          <Layout currentStep={currentStep} setCurrentStep={setCurrentStep}/>
+          <Layout currentStep={currentStep} setCurrentStep={setCurrentStep} />
         </aside>
         <div className="flex-1 mx-auto container mt-20">
           {Forms[currentStep].component}
